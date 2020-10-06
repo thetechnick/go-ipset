@@ -108,7 +108,10 @@ func (set *IPSet) List(name string) ([]string, error) {
 			break
 		}
 	}
-	return lines[start:], err
+	if len(lines) <= start+1 {
+		return nil, err
+	}
+	return lines[start+1:], err
 }
 
 func (set *IPSet) run(args ...string) (*bytes.Buffer, error) {
