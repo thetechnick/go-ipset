@@ -111,7 +111,16 @@ func (set *IPSet) List(name string) ([]string, error) {
 	if len(lines) <= start+1 {
 		return nil, err
 	}
-	return lines[start+1:], err
+
+	var members []string
+	for _, l := range lines[start+1:] {
+		if strings.TrimSpace(l) == "" {
+			continue
+		}
+		members = append(members, l)
+	}
+
+	return members, err
 }
 
 func (set *IPSet) run(args ...string) (*bytes.Buffer, error) {
